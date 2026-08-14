@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Precepta trial</title>
+  <meta name="description" content="Your Precepta 15-day trial license and self-host bundle.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0e14'/%3E%3Cpath d='M16 4l10 4v8c0 6-4 10-10 12C10 26 6 22 6 16V8z' fill='none' stroke='%234c82f7' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap inner">
+      <a class="brand" href="index.html"><span class="mark"></span> Precept<b>a</b></a>
+      <div class="actions"><a class="signin" href="docs.html">Docs</a></div>
+    </div>
+  </header>
+
+  <main class="wrap" style="max-width:760px; padding-top:52px; padding-bottom:90px">
+    <span class="pill">◆ Trial active</span>
+    <h1 class="h1" style="font-size:clamp(30px,4vw,44px); margin:16px 0 8px">You're in. <span class="grad">Welcome to Precepta.</span></h1>
+    <p class="lead" id="sub" style="max-width:40em">Your 15-day trial is ready. Here's your license key and everything you need to run Precepta in your own boundary.</p>
+
+    <!-- license key -->
+    <div class="panel" style="margin-top:28px">
+      <div class="mono" style="font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)">Your trial license key</div>
+      <div class="code" style="margin-top:12px">
+        <div class="top"><span class="f" id="expiry">valid for 15 days</span></div>
+        <pre><code id="licenseKey">— sign in to generate your key —</code></pre>
+      </div>
+      <div class="cta-row" style="margin-top:14px">
+        <button class="btn btn-primary btn-sm" id="copyKey">Copy key</button>
+        <span class="mono" id="emailNote" style="font-size:12px; color:var(--faint); align-self:center"></span>
+      </div>
+    </div>
+
+    <!-- run it -->
+    <div class="panel" style="margin-top:18px">
+      <div class="mono" style="font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)">Run it — three commands</div>
+      <div class="code" style="margin-top:12px">
+        <div class="top"><span class="f">terminal</span></div>
+        <pre><code><span class="cm"># 1 — get the self-host bundle</span>
+git clone https://github.com/LiminaLabsAI/precepta && cd precepta/deploy
+
+<span class="cm"># 2 — set your trial license</span>
+export PRECEPTA_LICENSE="<span class="add" id="keyInline">&lt;your key&gt;</span>"
+
+<span class="cm"># 3 — bring it up (Docker) — console at http://127.0.0.1:8000</span>
+./up.sh</code></pre>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin:14px 0 0">Everything runs on your infrastructure — models, keys and prompts stay inside your boundary. Full steps in the <a href="docs.html#quickstart" style="color:var(--blue)">quickstart</a>.</p>
+    </div>
+
+    <div class="cta-row" style="margin-top:26px">
+      <a class="btn btn-primary" href="docs.html">Read the docs</a>
+      <a class="btn btn-ghost" href="index.html">Back to home</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap inner"><div>© <span data-year>2026</span> Precepta — sovereign, governed AI.</div></div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+  <script>
+    // The trial result is stashed by start.html after a successful sign-in.
+    (function () {
+      var raw = sessionStorage.getItem("precepta_trial");
+      if (!raw) return;  // arrived here directly — leave placeholders
+      var t;
+      try { t = JSON.parse(raw); } catch (e) { return; }
+      if (t.license) {
+        document.getElementById("licenseKey").textContent = t.license;
+        document.getElementById("keyInline").textContent = t.license;
+      }
+      if (t.name) document.getElementById("sub").textContent =
+        "Welcome, " + t.name + " — your 15-day trial is ready. Here's your license key and everything you need to run Precepta in your own boundary.";
+      if (t.expiresAt) document.getElementById("expiry").textContent =
+        "valid until " + new Date(t.expiresAt).toLocaleDateString();
+      document.getElementById("emailNote").textContent = t.emailed ? "✓ a copy was emailed to " + (t.email || "you") : "";
+      document.getElementById("copyKey").addEventListener("click", function () {
+        navigator.clipboard.writeText(t.license || "").then(function () {
+          var b = document.getElementById("copyKey"); b.textContent = "✓ Copied"; setTimeout(function () { b.textContent = "Copy key"; }, 1600);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

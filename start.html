@@ -74,32 +74,64 @@
     </div>
   </footer>
 
-  <!--
-    Google Identity Services wiring (activated once a backend + client ID exist):
-
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    window.startGoogleTrial = () => google.accounts.id.prompt();
-    google.accounts.id.initialize({
-      client_id: "<GOOGLE_CLIENT_ID>",
-      callback: (res) => fetch("/api/trial/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ credential: res.credential })   // Google ID token
-      }).then(r => r.json()).then(({ redirect }) => location.href = redirect)
-    });
-
-    Backend /api/trial/start must: verify the ID token, create/lookup the user,
-    start the 15-day clock, provision the trial, and return { redirect }.
-    Until that exists, the button shows the placeholder below.
-  -->
+  <!-- Google Identity Services (loads only if the backend reports a client id) -->
   <script src="assets/app.js"></script>
   <script>
-    // Placeholder until the trial backend is connected.
-    window.startGoogleTrial = function () {
+    (function () {
       var note = document.getElementById("trialNote");
-      note.innerHTML = "<b style='color:var(--teal)'>Google sign-in isn't connected yet.</b> " +
-        "This button will start your 15-day trial once the auth backend is live.";
-    };
+      var btn = document.getElementById("googleBtn");
+      var GIS_SRC = "https://accounts.google.com/gsi/client";
+
+      function setNote(html) { note.innerHTML = html; }
+      function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement("script"); s.src = src; s.async = true;
+          s.onload = resolve; s.onerror = function () { reject(new Error("load failed")); };
+          document.head.appendChild(s);
+        });
+      }
+
+      // Ask the backend for the (public) Google client id.
+      fetch("/api/config").then(function (r) { return r.json(); }).catch(function () { return { configured: false }; })
+        .then(function (cfg) {
+          if (!cfg || !cfg.configured) {
+            // Not configured yet (e.g. previewing the static site) — degrade gracefully.
+            window.startGoogleTrial = function () {
+              setNote("<b style='color:var(--teal)'>Almost there.</b> Google sign-in turns on once the trial backend env is set (GOOGLE_CLIENT_ID). The flow is fully built.");
+            };
+            return;
+          }
+          loadScript(GIS_SRC).then(function () {
+            google.accounts.id.initialize({
+              client_id: cfg.googleClientId,
+              callback: onCredential,
+              auto_select: false,
+            });
+            window.startGoogleTrial = function () { google.accounts.id.prompt(); };
+          }).catch(function () {
+            setNote("Couldn't reach Google sign-in. Check your connection and try again.");
+          });
+        });
+
+      function onCredential(response) {
+        setNote("Setting up your workspace…");
+        btn.disabled = true;
+        fetch("/api/trial/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ credential: response.credential }),
+        }).then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error((res.b && res.b.error) || "sign-up failed");
+            sessionStorage.setItem("precepta_trial", JSON.stringify(res.b));
+            window.location.href = "welcome.html";
+          })
+          .catch(function (e) {
+            btn.disabled = false;
+            setNote("<b style='color:var(--danger)'>" + (e.message || "Something went wrong") + "</b> — please try again.");
+          });
+      }
+    })();
   </script>
 </body>
 </html>

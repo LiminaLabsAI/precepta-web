@@ -1,0 +1,13 @@
+{
+  "name": "precepta-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Marketing site + docs for Precepta — sovereign, governed AI. Static front-end with Vercel serverless functions for the 15-day trial.",
+  "scripts": {
+    "test": "node scripts/test-license.mjs",
+    "gen-keys": "node scripts/gen-keys.mjs",
+    "dev": "python3 -m http.server 4010"
+  },
+  "engines": { "node": ">=18" }
+}
