@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Precepta Docs</title>
+  <meta name="description" content="Precepta documentation — quickstart and the OpenAI-compatible API reference for the sovereign, governed AI gateway.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0e14'/%3E%3Cpath d='M16 4l10 4v8c0 6-4 10-10 12C10 26 6 22 6 16V8z' fill='none' stroke='%234c82f7' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap inner">
+      <a class="brand" href="index.html"><span class="mark"></span> Precept<b>a</b></a>
+      <nav class="links">
+        <a href="index.html#platform">Platform</a>
+        <a href="index.html#sovereignty">Sovereignty</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+      <div class="actions">
+        <a class="btn btn-primary btn-sm" href="start.html" data-google><span class="g-ico">G</span> Start free trial</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap docs">
+    <!-- sidebar -->
+    <aside class="docnav" aria-label="Docs navigation">
+      <div class="grp">Get started</div>
+      <a href="#quickstart" class="on">Quickstart</a>
+      <a href="#auth">Authentication</a>
+      <a href="#smart-router">Smart Router</a>
+      <div class="grp">API</div>
+      <a href="#chat">Chat completions</a>
+      <a href="#embeddings">Embeddings</a>
+      <a href="#moderations">Moderations</a>
+      <a href="#models">Models</a>
+      <a href="#errors">Errors</a>
+      <div class="grp">Platform</div>
+      <a href="#sovereignty-docs">Sovereignty</a>
+    </aside>
+
+    <!-- content -->
+    <article class="doc">
+      <span class="kick">Documentation</span>
+      <h1 class="h1" style="font-size:clamp(30px,3.6vw,42px); margin:10px 0 6px">Precepta API</h1>
+      <p class="lead" style="max-width:44em">Your governed, sovereign AI gateway — as code. It's <strong style="color:var(--text)">OpenAI-compatible</strong>: any OpenAI SDK works by changing one line, the base URL. Nothing leaves your boundary.</p>
+
+      <div class="sec" id="quickstart">
+        <h2>Quickstart</h2>
+        <p>Point any OpenAI SDK at your gateway's base URL and make one governed call. Get a key from your Precepta console under <em style="color:var(--text)">Keys &amp; budgets</em>.</p>
+        <div class="code" style="margin-top:14px">
+          <div class="top"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="f">quickstart.py</span></div>
+          <pre><code><span class="cm"># pip install openai — only the base_url differs from OpenAI</span>
+<span class="key">from</span> openai <span class="key">import</span> OpenAI
+client = OpenAI(base_url=<span class="add">"https://ai.yourco.com/v1"</span>, api_key=KEY)
+
+resp = client.chat.completions.create(
+    model=<span class="add">"auto"</span>,                <span class="cm"># "auto" = Smart Router</span>
+    messages=[{"role": "user", "content": "hello"}],
+)
+print(resp.choices[0].message.content)</code></pre>
+        </div>
+      </div>
+
+      <div class="sec" id="auth">
+        <h2>Authentication</h2>
+        <p>Send your key as a bearer token on every request: <code class="mono" style="color:#a9c4ff">Authorization: Bearer &lt;key&gt;</code>. Keys are scoped — a consumer key can call the data-plane endpoints below; management keys additionally read and write configuration. Keys carry their own budgets and policies.</p>
+      </div>
+
+      <div class="sec" id="smart-router">
+        <h2>Smart Router — it's a model, not an endpoint</h2>
+        <p>Set <code>model:"auto"</code> and the router picks the best healthy in-boundary model per request (quality vs. cost vs. latency). It appears in <code>GET /v1/models</code> (owned by <code>precepta-router</code>), just like OpenRouter's <code>openrouter/auto</code>. Variants: <code>auto:cheapest</code>, <code>auto:best-quality</code> — or name an exact <code>"&lt;endpoint&gt;/&lt;model&gt;"</code>.</p>
+      </div>
+
+      <div class="sec" id="chat">
+        <h2><span class="badge-post">POST</span>Chat completions</h2>
+        <p><code>/v1/chat/completions</code> — the core endpoint; <code>/v1/inference</code> is a branded alias. OpenAI-identical payload, governed and audited before it reaches a model.</p>
+        <div class="code" style="margin-top:14px">
+          <div class="top"><span class="f">request &amp; response</span></div>
+          <pre><code><span class="cm"># Request</span>
+{ "model": "auto",
+  "messages": [{"role": "user", "content": "hello"}],
+  "temperature": 0.3, "max_tokens": 64 }
+
+<span class="cm"># Response (200)</span>
+{ "id": "chatcmpl-…", "object": "chat.completion",
+  "model": "ollama/llama3.2:3b",
+  "choices": [{ "index": 0, "finish_reason": "stop",
+    "message": {"role": "assistant", "content": "Hello!"} }],
+  "usage": {"prompt_tokens": 9, "completion_tokens": 3, "total_tokens": 12},
+  <span class="add">"precepta"</span>: {"backend_used": "ollama", "in_boundary": true,
+    "policy_decision": "allow", "cache": "miss", "trace_id": "…"} }</code></pre>
+        </div>
+        <p style="font-size:13.5px; margin-top:12px">The additive <code>precepta</code> block carries governance metadata (backend, policy decision, cache, redactions, trace id). OpenAI SDKs ignore unknown fields. Send <code>"stream": true</code> for OpenAI-style SSE.</p>
+      </div>
+
+      <div class="sec" id="embeddings">
+        <h2><span class="badge-post">POST</span>Embeddings</h2>
+        <p><code>/v1/embeddings</code> — <code>{ "model": "auto", "input": "text" }</code> (or a list). Returns the standard OpenAI embeddings shape, generated in-boundary.</p>
+      </div>
+
+      <div class="sec" id="moderations">
+        <h2><span class="badge-post">POST</span>Moderations — content screening</h2>
+        <p><code>/v1/moderations</code> — OpenAI-shaped screening that runs in-boundary on <code>precepta-guard</code>; flags prompt-injection, PII and toxicity. Use it to pre-screen untrusted input before spending a model call.</p>
+      </div>
+
+      <div class="sec" id="models">
+        <h2><span class="badge-get">GET</span>Models</h2>
+        <p><code>/v1/models</code> — the OpenAI-standard list (<code>id / object / created / owned_by</code>), including the Smart Router virtual models. Retrieve one with <code>/v1/models/{id}</code>.</p>
+      </div>
+
+      <div class="sec" id="errors">
+        <h2>Errors — one shape</h2>
+        <div class="code" style="margin-top:12px">
+          <div class="top"><span class="f">error envelope</span></div>
+          <pre><code>{ "error": { "message": "…", "type": "forbidden | invalid_request_error | not_found | unauthenticated | unavailable", "code": "…" } }</code></pre>
+        </div>
+        <p style="font-size:13.5px; margin-top:12px"><code>401</code> no/bad key · <code>403</code> wrong scope or a policy blocked it · <code>404</code> unknown resource · <code>400</code> malformed body · <code>503</code> no healthy model.</p>
+      </div>
+
+      <div class="sec" id="sovereignty-docs">
+        <h2>Sovereignty</h2>
+        <p>Requests only reach in-boundary models — or the specific external hosts a platform owner approved under egress settings. Nothing else leaves. Every call is policy-checked and audited, and you can replay the full governed journey of any request in Traces. A live sovereignty attestation proves your posture.</p>
+        <div class="cta-row" style="margin-top:22px">
+          <a class="btn btn-primary" href="start.html" data-google><span class="g-ico">G</span> Start 15-day trial</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap inner">
+      <div>© <span data-year>2026</span> Precepta — sovereign, governed AI.</div>
+      <div class="cols"><div class="col"><a href="index.html">Home</a></div><div class="col"><a href="start.html">Start trial</a></div></div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

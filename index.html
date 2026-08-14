@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Precepta — Sovereign, governed AI</title>
+  <meta name="description" content="Precepta is a self-hosted, governed AI control plane. Run open-source and hosted models inside your own boundary — every request policy-checked, PII-redacted, and audited, with a signed attestation that nothing leaves.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0e14'/%3E%3Cpath d='M16 4l10 4v8c0 6-4 10-10 12C10 26 6 22 6 16V8z' fill='none' stroke='%234c82f7' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap inner">
+      <a class="brand" href="index.html"><span class="mark"></span> Precept<b>a</b></a>
+      <nav class="links">
+        <a href="#platform">Platform</a>
+        <a href="#sovereignty">Sovereignty</a>
+        <a href="#developers">Developers</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+      <div class="actions">
+        <a class="signin" href="start.html">Sign in</a>
+        <a class="btn btn-primary btn-sm" href="start.html" data-google><span class="g-ico">G</span> Start free trial</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="wrap hero">
+      <div>
+        <span class="eyebrow rise">Sovereign AI control plane</span>
+        <h1 class="h1 rise d1" style="margin-top:20px">Run AI inside your own walls.<br><span class="grad">Prove nothing leaves.</span></h1>
+        <p class="sub rise d2">Precepta is a self-hosted, governed gateway for open-source and hosted models. Every request is policy-checked, PII-redacted, and audited — and a cryptographic attestation proves your data never crossed the boundary.</p>
+        <div class="cta-row rise d2">
+          <a class="btn btn-primary" href="start.html" data-google><span class="g-ico">G</span> Start 15-day trial</a>
+          <a class="btn btn-ghost" href="docs.html">Read the docs</a>
+        </div>
+        <div class="fine rise d3">No data leaves your boundary · Deploy in an afternoon · Free for 15 days</div>
+      </div>
+
+      <div class="boundary rise d2" aria-label="Your boundary">
+        <div class="b-chip"><span class="nm">Llama 3.2 · in-boundary</span><span class="tag">running</span></div>
+        <div class="b-chip"><span class="nm">Smart Router · model:"auto"</span><span class="tag">active</span></div>
+        <div class="b-chip"><span class="nm">Embeddings · nomic</span><span class="tag">local</span></div>
+        <div class="b-egress">
+          <span class="x">✕</span>
+          <span class="t"><b>Egress blocked.</b> No route to the public internet — enforced by construction.</span>
+        </div>
+        <div class="b-attest"><span class="ok">● sealed ✓</span> attestation sha256:9f2c4e…a1b0 · zero-egress verified</div>
+      </div>
+    </section>
+
+    <!-- PROOF BAR -->
+    <div class="wrap">
+      <div class="proof">
+        <span>Zero-egress by construction</span>
+        <span>OpenAI-compatible</span>
+        <span>Signed sovereignty attestation</span>
+        <span>Full audit trail</span>
+      </div>
+    </div>
+
+    <!-- PROBLEM -->
+    <section class="wrap section" id="why">
+      <span class="kick">The problem</span>
+      <h2 class="h2" style="margin-top:12px; max-width:18ch">Most companies can't safely deploy AI.</h2>
+      <p class="lead" style="max-width:46em; margin-top:14px">Prompts and data leave the building for third-party APIs. There's no consistent governance across teams. And when an auditor asks what happened to a request, there's no answer. Precepta closes all three gaps — without changing how your developers work.</p>
+    </section>
+
+    <!-- PLATFORM / PIPELINE -->
+    <section class="wrap section-t section" id="platform">
+      <span class="kick">The control plane</span>
+      <h2 class="h2" style="margin-top:12px">One governed path for every request</h2>
+      <p class="lead" style="max-width:44em; margin-top:12px">The rails are fixed; the routing is yours. Every call flows through the same governed pipeline before — and after — it reaches a model.</p>
+      <div class="pipe">
+        <div class="st"><div class="n">01</div><div class="l">Firewall</div></div>
+        <div class="st"><div class="n">02</div><div class="l">Sensitivity</div></div>
+        <div class="st"><div class="n">03</div><div class="l">Policy</div></div>
+        <div class="st route"><div class="n">04</div><div class="l">Smart route</div></div>
+        <div class="st"><div class="n">05</div><div class="l">Cache</div></div>
+        <div class="st"><div class="n">06</div><div class="l">Inference</div></div>
+        <div class="st"><div class="n">07</div><div class="l">Audit</div></div>
+      </div>
+
+      <div class="grid3">
+        <div class="card"><div class="bar"></div><div class="n">govern</div><h3>Governed pipeline</h3><p>Firewall, sensitivity, policy, PII redaction and an output leak scan run on every request — before a model ever sees it.</p></div>
+        <div class="card"><div class="bar"></div><div class="n">route</div><h3>Smart Router</h3><p>Set <code>model:"auto"</code> and the router picks the best healthy in-boundary model per request — quality vs. cost vs. latency.</p></div>
+        <div class="card"><div class="bar"></div><div class="n">observe</div><h3>Traces &amp; audit</h3><p>Replay the full governed journey of any request — every step, the decision, and why — with a tamper-evident audit log.</p></div>
+        <div class="card"><div class="bar"></div><div class="n">control</div><h3>Policies &amp; budgets</h3><p>Per-key scopes, cost and token caps, and policy rules enforced before inference — no surprise spend, no ungoverned access.</p></div>
+        <div class="card"><div class="bar"></div><div class="n">save</div><h3>Cache &amp; compression</h3><p>Reuse deterministic answers and trim long prompts. Real, per-endpoint savings you can see — never at the cost of governance.</p></div>
+        <div class="card"><div class="bar"></div><div class="n">prove</div><h3>Sovereignty attestation</h3><p>A live egress probe and a signed attestation prove — not promise — that nothing left your boundary.</p></div>
+      </div>
+    </section>
+
+    <!-- SOVEREIGNTY -->
+    <section class="wrap section" id="sovereignty">
+      <div class="split">
+        <div>
+          <span class="eyebrow">Sovereignty, by construction</span>
+          <h2 class="h2" style="margin-top:16px">Not a setting you trust. A property you can prove.</h2>
+          <p class="lead" style="margin-top:14px">Precepta runs on an internal network with no route to the public internet. Reaching an external host is impossible unless you explicitly, owner-only, approve it — and the attestation records exactly what your posture is.</p>
+          <ul class="checklist">
+            <li><span class="ck">✓</span><div>Zero-egress by construction <small>The app has no network path out — a live probe confirms it at boot and on demand.</small></div></li>
+            <li><span class="ck">✓</span><div>Owner-gated approved egress <small>Reach a specific hosted model only if the platform owner allows that exact host. Everything else stays sealed.</small></div></li>
+            <li><span class="ck">✓</span><div>Signed attestation + full audit <small>Show auditors a cryptographic record of your sovereignty posture and every governed request.</small></div></li>
+          </ul>
+        </div>
+        <div class="boundary" aria-hidden="true">
+          <div class="b-chip"><span class="nm">Sovereign mode</span><span class="tag">sealed ✓</span></div>
+          <div class="b-chip"><span class="nm">Egress probe</span><span class="tag">blocked ✓</span></div>
+          <div class="b-chip"><span class="nm">Audit chain</span><span class="tag">verified ✓</span></div>
+          <div class="b-attest"><span class="ok">● attestation</span> posture: sealed · generated 2026-08-14 · sha256:9f2c4e…a1b0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVELOPERS -->
+    <section class="wrap section" id="developers">
+      <div class="split">
+        <div class="code" aria-label="Code example">
+          <div class="top"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="f">app.py</span></div>
+          <pre><code><span class="cm"># Same OpenAI SDK — only the base URL changes.</span>
+<span class="key">from</span> openai <span class="key">import</span> OpenAI
+
+<span class="del">- client = OpenAI()</span>
+<span class="add">+ client = OpenAI(base_url="https://ai.yourco.com/v1")</span>
+
+resp = client.chat.completions.create(
+    model=<span class="add">"auto"</span>,   <span class="cm"># "auto" = Precepta Smart Router</span>
+    messages=[{"role": "user", "content": "hello"}],
+)
+print(resp.choices[0].message.content)</code></pre>
+        </div>
+        <div>
+          <span class="eyebrow">Drop-in for developers</span>
+          <h2 class="h2" style="margin-top:16px">The API they already know. Change one line.</h2>
+          <p class="lead" style="margin-top:14px">Precepta speaks the OpenAI standard — chat, embeddings, moderations, models. Point any OpenAI SDK at your gateway and every call is governed, routed and audited. No client rewrite, no lock-in.</p>
+          <div class="cta-row" style="margin-top:26px">
+            <a class="btn btn-primary" href="docs.html"><span aria-hidden="true">↗</span> View the API reference</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="wrap section-t" style="padding-bottom:80px">
+      <div class="cta-band">
+        <h2 class="h2">Deploy AI you can defend.</h2>
+        <p>Stand up a governed, sovereign AI gateway on your own infrastructure — free for 15 days. Your models, your data, your walls.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="start.html" data-google><span class="g-ico">G</span> Start 15-day trial</a>
+          <a class="btn btn-ghost" href="start.html">Book a demo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap inner">
+      <div>
+        <a class="brand" href="index.html" style="font-size:16px"><span class="mark"></span> Precept<b>a</b></a>
+        <div style="margin-top:12px; max-width:24em; color:var(--faint)">Sovereign, governed AI — self-hosted, zero-egress, OpenAI-compatible.</div>
+        <div style="margin-top:14px">© <span data-year>2026</span> Precepta</div>
+      </div>
+      <div class="cols">
+        <div class="col"><b>Product</b><a href="#platform">Platform</a><a href="#sovereignty">Sovereignty</a><a href="#developers">Developers</a><a href="start.html">Start trial</a></div>
+        <div class="col"><b>Developers</b><a href="docs.html">Docs</a><a href="docs.html#quickstart">Quickstart</a><a href="docs.html#api">API reference</a></div>
+        <div class="col"><b>Company</b><a href="start.html">Book a demo</a><a href="#why">Why Precepta</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

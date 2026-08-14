@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start your Precepta trial</title>
+  <meta name="description" content="Start a free 15-day trial of Precepta — the sovereign, governed AI control plane. Sign in with Google and deploy in your own boundary.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0e14'/%3E%3Cpath d='M16 4l10 4v8c0 6-4 10-10 12C10 26 6 22 6 16V8z' fill='none' stroke='%234c82f7' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-trial-page>
+
+  <header class="nav">
+    <div class="wrap inner">
+      <a class="brand" href="index.html"><span class="mark"></span> Precept<b>a</b></a>
+      <nav class="links">
+        <a href="index.html#platform">Platform</a>
+        <a href="index.html#sovereignty">Sovereignty</a>
+        <a href="docs.html">Docs</a>
+      </nav>
+      <div class="actions">
+        <a class="signin" href="index.html">Back to site</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap trial">
+    <!-- left: the pitch -->
+    <section>
+      <span class="pill rise">◆ 15 days free · no card required</span>
+      <h1 class="h1 rise d1" style="font-size:clamp(34px,4.6vw,52px); margin-top:18px">Start your 15-day trial</h1>
+      <p class="lead rise d2" style="max-width:34em; margin-top:16px">Stand up a governed, sovereign AI gateway on your own infrastructure. Sign in with Google to create your workspace and get your trial license.</p>
+
+      <ol class="trial-steps rise d2" style="margin-top:34px">
+        <li><div><h4>Sign in with Google</h4><p>We create your Precepta workspace — no password to manage.</p></div></li>
+        <li><div><h4>Get your trial license</h4><p>A 15-day key plus the self-host bundle (Docker Compose). Everything runs in your boundary.</p></div></li>
+        <li><div><h4>Point your app at it</h4><p>Change one line — the base URL — and every call is governed, routed and audited.</p></div></li>
+      </ol>
+
+      <div class="proof" style="margin-top:34px; border-bottom:none">
+        <span>Zero-egress by construction</span>
+        <span>OpenAI-compatible</span>
+        <span>Cancel anytime</span>
+      </div>
+    </section>
+
+    <!-- right: the action -->
+    <section class="panel rise d1">
+      <div class="pill" style="margin-bottom:16px">◆ Free trial</div>
+      <h2>Create your workspace</h2>
+      <p style="color:var(--muted); font-size:14px; margin:8px 0 22px">15 days of the full platform — governance, Smart Router, traces, and the sovereignty attestation.</p>
+
+      <button class="btn google-btn" data-google id="googleBtn">
+        <span class="g-ico" aria-hidden="true">G</span> Continue with Google
+      </button>
+
+      <p class="trial-fine" id="trialNote">By continuing you agree to the Terms and Privacy Policy. We only use your Google profile to create your workspace.</p>
+
+      <div style="border-top:1px solid var(--line); margin:22px 0 0; padding-top:18px">
+        <div class="mono" style="font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)">What you get</div>
+        <ul class="checklist" style="margin-top:12px">
+          <li><span class="ck">✓</span><div style="font-size:14px">Full governed pipeline + Smart Router</div></li>
+          <li><span class="ck">✓</span><div style="font-size:14px">Traces, audit log &amp; sovereignty attestation</div></li>
+          <li><span class="ck">✓</span><div style="font-size:14px">Runs entirely in your boundary</div></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap inner">
+      <div>© <span data-year>2026</span> Precepta — sovereign, governed AI.</div>
+      <div class="cols"><div class="col"><a href="index.html">Home</a></div><div class="col"><a href="docs.html">Docs</a></div></div>
+    </div>
+  </footer>
+
+  <!--
+    Google Identity Services wiring (activated once a backend + client ID exist):
+
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    window.startGoogleTrial = () => google.accounts.id.prompt();
+    google.accounts.id.initialize({
+      client_id: "<GOOGLE_CLIENT_ID>",
+      callback: (res) => fetch("/api/trial/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: res.credential })   // Google ID token
+      }).then(r => r.json()).then(({ redirect }) => location.href = redirect)
+    });
+
+    Backend /api/trial/start must: verify the ID token, create/lookup the user,
+    start the 15-day clock, provision the trial, and return { redirect }.
+    Until that exists, the button shows the placeholder below.
+  -->
+  <script src="assets/app.js"></script>
+  <script>
+    // Placeholder until the trial backend is connected.
+    window.startGoogleTrial = function () {
+      var note = document.getElementById("trialNote");
+      note.innerHTML = "<b style='color:var(--teal)'>Google sign-in isn't connected yet.</b> " +
+        "This button will start your 15-day trial once the auth backend is live.";
+    };
+  </script>
+</body>
+</html>
