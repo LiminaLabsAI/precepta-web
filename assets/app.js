@@ -2,9 +2,10 @@
 (function () {
   "use strict";
 
-  // Where "Get started" sends people: the Precepta console (the product repo).
-  // Override order: window.PRECEPTA_CONSOLE → /api/config.consoleUrl → default.
-  var CONSOLE_URL = window.PRECEPTA_CONSOLE || "http://127.0.0.1:8000/console";
+  // Where "Get started" sends people: the Precepta console (the product).
+  // Override order: window.PRECEPTA_CONSOLE → /api/config.consoleUrl (CONSOLE_URL
+  // env on Vercel) → this default. Default is the production console.
+  var CONSOLE_URL = window.PRECEPTA_CONSOLE || "https://console.preceptaeai.com";
 
   // "Get started" → the console.
   function wireGetStarted() {

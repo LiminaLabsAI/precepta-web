@@ -6,7 +6,7 @@
  */
 export default function handler(req, res) {
   const googleClientId = process.env.GOOGLE_CLIENT_ID || "";
-  const consoleUrl = process.env.CONSOLE_URL || "http://127.0.0.1:8000/console";
+  const consoleUrl = process.env.CONSOLE_URL || "https://console.preceptaeai.com";
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "public, max-age=300");
   res.end(JSON.stringify({ googleClientId, consoleUrl, configured: Boolean(googleClientId) }));
