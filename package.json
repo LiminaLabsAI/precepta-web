@@ -9,5 +9,5 @@
     "gen-keys": "node scripts/gen-keys.mjs",
     "dev": "python3 -m http.server 4010"
   },
-  "engines": { "node": ">=18" }
+  "engines": { "node": "22.x" }
 }
