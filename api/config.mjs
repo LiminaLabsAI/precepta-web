@@ -6,7 +6,9 @@
  */
 export default function handler(req, res) {
   const googleClientId = process.env.GOOGLE_CLIENT_ID || "";
-  const consoleUrl = process.env.CONSOLE_URL || "https://console.preceptaeai.com";
+  // Source of truth for where "Get started" goes. Set CONSOLE_URL per environment
+  // in Vercel; empty here means the front-end keeps its local-dev fallback.
+  const consoleUrl = process.env.CONSOLE_URL || "";
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "public, max-age=300");
   res.end(JSON.stringify({ googleClientId, consoleUrl, configured: Boolean(googleClientId) }));

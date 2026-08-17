@@ -43,7 +43,7 @@ npm test             # offline license mint/verify/tamper/expiry checks
 | `LICENSE_SIGNING_KEY` | website | The **private** Ed25519 PEM from `gen-keys` (single-line `\n`-escaped is fine). Keep secret. |
 | `RESEND_API_KEY` | website | *(optional)* enables the trial email. Without it, the key is shown on-screen only. |
 | `TRIAL_FROM` | website | *(optional)* email From, e.g. `Precepta <trial@yourdomain>`. |
-| `CONSOLE_URL` | website | *(optional)* where "Get started" / "Sign in" redirect. Defaults to `https://console.preceptaeai.com`; override per environment. |
+| `CONSOLE_URL` | website | where "Get started" / "Sign in" redirect (e.g. `https://console.preceptaeai.com`). **Set this in Vercel for production** — no domain is baked into the code. If unset, the front-end falls back to the local dev console. |
 | `LICENSE_PUBLIC_KEY` | **product** | The **public** PEM — ships with Precepta to verify trial keys. |
 
 The front-end degrades gracefully until `GOOGLE_CLIENT_ID` is set (the button
